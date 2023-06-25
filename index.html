@@ -11,9 +11,10 @@
       grid-gap: 1px;
     }
     .cell {
+        border-radius: 5%;
       width: 100px;
       height: 100px;
-      background-color: #eee;
+      background-color: orange;
       display: grid;
       justify-content: center;
       align-items: center;
@@ -21,6 +22,7 @@
       cursor: pointer;
     }
     .cell:hover {
+        border-radius: 5%;
       background-color: #ddd;
     }
   </style>
@@ -66,7 +68,7 @@
         }
 
         cell.textContent = currentPlayer;
-        cell.style.color = currentPlayer === 'X' ? 'red' : 'blue';
+        cell.style.color = currentPlayer === 'X' ? 'white' : 'black';
 
         if (checkWin(currentPlayer)) {
           announceResult(`${currentPlayer} wins!`);
