@@ -1,15 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe_Game</title>
+  <title>Tic Tac Toe</title>
+  <style>
+    .board {
+        width: 300px;
+        height: 300px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 1px;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #eee;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      cursor: pointer;
+    }
+    .cell:hover {
+      background-color: #ddd;
+    }
+  </style>
 </head>
-
 <body>
+  <h1>Tic Tac Toe</h1>
+  <div class="board">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const board = document.querySelector('.board');
+      const cells = Array.from(document.querySelectorAll('.cell'));
 
+      let currentPlayer = 'X';
+      let isGameActive = true;
+
+      const winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+      ];
+
+      const handleCellClick = (e) => {
+        const cell = e.target;
+        const index = cells.indexOf(cell);
+
+        if (cell.textContent !== '' || !isGameActive) {
+          return;
+        }
+
+        cell.textContent = currentPlayer;
+        cell.style.color = currentPlayer === 'X' ? 'red' : 'blue';
+
+        if (checkWin(currentPlayer)) {
+          announceResult(`${currentPlayer} wins!`);
+          isGameActive = false;
+          return;
+        }
+
+        if (checkDraw()) {
+          announceResult("It's a draw!");
+          isGameActive = false;
+          return;
+        }
+
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      };
+
+      const checkWin = (player) => {
+        return winningCombinations.some(combination => {
+          return combination.every(index => {
+            return cells[index].textContent === player;
+          });
+        });
+      };
+
+      const checkDraw = () => {
+        return cells.every(cell => {
+          return cell.textContent !== '';
+        });
+      };
+
+      const announceResult = (message) => {
+        const result = document.createElement('div');
+        result.textContent = message;
+        document.body.appendChild(result);
+      };
+
+      cells.forEach(cell => {
+        cell.addEventListener('click', handleCellClick);
+      });
+    });
+  </script>
 </body>
-
 </html>
